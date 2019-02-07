@@ -1,16 +1,25 @@
 
-<input type="text" class="todo-input" placeholder="What needs to be done">
+<input type="text" class="todo-input" placeholder="What needs to be done"
+       [(ngModel)]="todoTitle" (keyup.enter)="addToDo()">
 
 <div class="todo-item" *ngFor="let todo of todos">
   <div class="todo-item-left">
     <input type="checkbox">
-    <div class="todo-item-name">{{todo.title}}</div>
+    <div class="todo-item-name"
+         *ngIf="!todo.editing; else editingTodo"
+         (dblclick)="editToDo(todo)">{{todo.title}}</div>
   </div>
-  <div class="remove-item">
+
+  <ng-template #editingTodo>
+    <input type="text" class="todo-item-edit"
+           [(ngModel)]="todo.title">
+  </ng-template>
+
+
+  <div class="remove-item" (click)="deleteToDo(todo.id)">
     &times;
   </div>
 </div>
-
 
 <div class="manage-panel">
   <div class="extra-container">
