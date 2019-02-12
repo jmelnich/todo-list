@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../interfaces/todo';
 
+
 @Component({
   selector: 'todo-list',
   templateUrl: './todo-list.component.html',
@@ -10,11 +11,13 @@ export class TodoListComponent implements OnInit {
   todos: Todo[];
   todoTitle: string;
   id: number;
+  beforeEditCache: string;
 
   constructor() { }
 
   ngOnInit() {
     this.todoTitle = '';
+    this.beforeEditCache = '';
     this.todos = [
       {
         id: 1,
@@ -57,6 +60,20 @@ export class TodoListComponent implements OnInit {
   }
 
   editToDo(todo: Todo): void {
-      todo.editing = true;
+    this.beforeEditCache = todo.title;
+    todo.editing = true;
+  }
+
+  doneEdit(todo: Todo): void {
+    if (!todo.title.trim()) {
+      todo.title = this.beforeEditCache;
+
+    }
+    todo.editing = false;
+  }
+
+  cancelEdit(todo: Todo): void {
+    todo.title = this.beforeEditCache;
+    todo.editing = false;
   }
 }

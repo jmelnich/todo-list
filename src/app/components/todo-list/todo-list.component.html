@@ -4,15 +4,20 @@
 
 <div class="todo-item" *ngFor="let todo of todos">
   <div class="todo-item-left">
-    <input type="checkbox">
+    <input type="checkbox" [(ngModel)]="todo.completed">
     <div class="todo-item-name"
+          [ngClass]="{'completed' : todo.completed}"
          *ngIf="!todo.editing; else editingTodo"
          (dblclick)="editToDo(todo)">{{todo.title}}</div>
   </div>
 
   <ng-template #editingTodo>
     <input type="text" class="todo-item-edit"
-           [(ngModel)]="todo.title">
+           [(ngModel)]="todo.title"
+           (blur)="doneEdit(todo)"
+           (keyup.enter)="doneEdit(todo)"
+           (keyup.esc)="cancelEdit(todo)"
+           autofocus>
   </ng-template>
 
 
