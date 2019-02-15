@@ -1,11 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../interfaces/todo';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 
 @Component({
   selector: 'todo-list', //how i do import in into another app html <todo-list></todo-list>
   templateUrl: './todo-list.component.html', //template
-  styleUrls: ['./todo-list.component.scss'] //styles
+  styleUrls: ['./todo-list.component.scss'], //styles
+  animations: [
+    trigger('fade', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(30px)'}),
+        animate(200, style({opacity: 1, transform: 'translateY(0px)'}))
+      ]),
+      transition(':leave', [
+        animate(200, style({opacity: 1, transform: 'translateY(0px)'}))
+      ])
+    ])
+  ]
 })
 export class TodoListComponent implements OnInit {
   todos: Todo[];
